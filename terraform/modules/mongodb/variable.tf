@@ -94,35 +94,21 @@ variable "kind" {
     error_message = "Invalid value entered - ${var.kind}"
 }
 }
-
 variable "consistency_policy" {
-  description = "Specifies a consistency_policy resource, used to define the consistency policy for this CosmosDB account."
-  type = list(object({
+  description = "Configuration for consistency policy."
+  type        = map(object({
     consistency_level       = string
-    max_interval_in_seconds = optional(number)
-    max_staleness_prefix    = optional(number)
+    max_interval_in_seconds = number
+    max_staleness_prefix    = number
   }))
-
-  default = [{
-    consistency_level       = "BoundedStaleness"
-    max_interval_in_seconds = 5 // Provide a default value for max_interval_in_seconds
-    max_staleness_prefix    = 100 // Provide a default value for max_staleness_prefix
-  }]
-
-  validation {
-    condition     = alltrue([for policy in var.consistency_policy : policy.consistency_level == "BoundedStaleness" && policy.max_interval_in_seconds != null && policy.max_staleness_prefix != null])
-    error_message = "The max_interval_in_seconds and max_staleness_prefix must be specified for consistency level 'BoundedStaleness'."
-  }
 }
-
-
 
 variable "geo_location" {
   description = " Specifies a geo_location resource, used to define where data should be replicated with the failover_priority 0 specifying the primary location."
   type = list(object({
     location                = string
     failover_priority       = number
-    zone_redundancy_enabled = optional(bool)
+    zone_redundancy = optional(bool)
   }))
 }
 
@@ -190,17 +176,23 @@ variable "default_identity_type" {
   type = string
   default = null
 }
+
 variable "public_network_access_enabled" {
-  type = bool
+  description = "Indicates whether or not public network access to the MongoDB API is allowed for this CosmosDB Account. Defaults to false."
+  type        = bool
 }
 
 variable "mongodb_name" {
-  type = string
+  description = "The name of the MongoDB API for CosmosDB. Changing this forces a new resource to be created."
+  type        = string
 }
+
 variable "account_name" {
-  type = string
+  description = "The name of the CosmosDB Account. Changing this forces a new resource to be created."
+  type        = string
 }
+
 variable "throughput" {
-  type = number
-  
+  description = "The throughput (RU/s) of the CosmosDB Account. Must be within the range of 400 to 1000000. Changing this forces a new resource to be created."
+  type        = number
 }

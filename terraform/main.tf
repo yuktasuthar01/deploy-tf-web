@@ -54,7 +54,7 @@ module "app-service" {
 }
 
 module "virtual_network" {
-  source               = "./modules/vnet"
+  source = "./modules/vnet"
   subnets = [
     {
       name           = "subnet1"
@@ -85,28 +85,62 @@ module "virtual_network" {
 
 # }
 
+// module "cosmosdb_mongodb" {
+//source              = "./modules/mongodb"
+//cosmo_account_name  = "login-register-app"
+//location            = module.rg.location
+//resource_group_name = module.rg.name
+//backup_type         = "Continuous"
+//account_name        = "db_mongo"
+//consistency_policy = {
+//example_policy_1 = {
+// consistency_level       = "BoundedStaleness"
+//max_interval_in_seconds = 10
+//max_staleness_prefix    = 200
+//}
+//example_policy_2 = {
+// consistency_level       = "Strong"
+//max_interval_in_seconds = null
+//max_staleness_prefix    = null
+//}
+//public_network_access_enabled = true  # or false, depending on your requirements
+//mongodb_name                  = "example_mongodb"
+//account_name                  = "example_account"
+//throughput                    = 400  # Example value within the required range
+//geo_location = {
+// location = "West US"
+//failover_priority = 0
+// }
+//}
+//}
+
 module "cosmosdb_mongodb" {
   source              = "./modules/mongodb"
   cosmo_account_name  = "login-register-app"
   location            = module.rg.location
   resource_group_name = module.rg.name
   backup_type         = "Continuous"
-  account_name        = "db_mongo"
-  geo_location = [
-    {
-      location          = "westus"
-      failover_priority = 0
-      // Add other geo location attributes as needed
-    }
-    // Add more geo locations as needed
-  ]
-  throughput = 1000
-  mongodb_name= "login-register-db"
-  public_network_access_enabled = "true"
+
+  public_network_access_enabled = true # or false, depending on your requirements
+  mongodb_name                  = "example_mongodb"
+  account_name                  = "example_account"
+  throughput                    = 400 # Example value within the required range
+  geo_location = {
+    location          = "West US"
+    failover_priority = 1
+    zone_redundancy = "false"
+  }
+
   consistency_policy = {
-    consistency_level       = "BoundedStaleness"
-    max_interval_in_seconds = 5 // Provide a default value for max_interval_in_seconds
-    max_staleness_prefix    = 100 // Provide a default value for max_staleness_prefix
-}
-  
+    example_policy_1 = {
+      consistency_level       = "BoundedStaleness"
+      max_interval_in_seconds = 10
+      max_staleness_prefix    = 200
+    }
+    example_policy_2 = {
+      consistency_level       = "Strong"
+      max_interval_in_seconds = null
+      max_staleness_prefix    = null
+    }
+  }
 }
