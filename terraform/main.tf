@@ -1,8 +1,8 @@
 module "rg" {
   source = "./modules/rg"
 
-  resource_group_name = "demo"
-  location            = "centralindia"
+  resource_group_name = "terraform-testing"
+  location            = "eastus"
 
 }
 
@@ -19,7 +19,6 @@ module "service_plan" {
   }
 
 }
-
 
 module "app-service" {
   source              = "./modules/app-service"
@@ -59,14 +58,12 @@ module "virtual_network" {
     {
       name           = "subnet1"
       address_prefix = "10.0.0.0/24"
-      // Add other subnet attributes as needed
     },
     {
       name           = "subnet2"
       address_prefix = "10.0.1.0/24"
-      // Add other subnet attributes as needed
     }
-    // Add more subnets as needed
+
   ]
   virtual_network_name = "test-vnet"
   location             = module.rg.location
@@ -78,69 +75,38 @@ module "virtual_network" {
   }
 }
 
-# module "subnets" {
-#   source                = "./modules/vnet/subnets"
-#   subnets = "10.0.1.1/16"
-#   virtual_network_name  = module.virtual_network.name
-
-# }
-
-// module "cosmosdb_mongodb" {
-//source              = "./modules/mongodb"
-//cosmo_account_name  = "login-register-app"
-//location            = module.rg.location
-//resource_group_name = module.rg.name
-//backup_type         = "Continuous"
-//account_name        = "db_mongo"
-//consistency_policy = {
-//example_policy_1 = {
-// consistency_level       = "BoundedStaleness"
-//max_interval_in_seconds = 10
-//max_staleness_prefix    = 200
-//}
-//example_policy_2 = {
-// consistency_level       = "Strong"
-//max_interval_in_seconds = null
-//max_staleness_prefix    = null
-//}
-//public_network_access_enabled = true  # or false, depending on your requirements
-//mongodb_name                  = "example_mongodb"
-//account_name                  = "example_account"
-//throughput                    = 400  # Example value within the required range
-//geo_location = {
-// location = "West US"
-//failover_priority = 0
-// }
-//}
-//}
-
 module "cosmosdb_mongodb" {
   source              = "./modules/mongodb"
   cosmo_account_name  = "login-register-app"
   location            = module.rg.location
   resource_group_name = module.rg.name
+  offer_type          = "Standard"
+  kind                = "MongoDB"
   backup_type         = "Continuous"
+  capabilities = [{
+    name = "EnableMongo"
+  }]
+  # create_mode = "Restore" 
 
-  public_network_access_enabled = true # or false, depending on your requirements
-  mongodb_name                  = "example_mongodb"
-  account_name                  = "example_account"
-  throughput                    = 400 # Example value within the required range
-  geo_location = {
-    location          = "West US"
-    failover_priority = 1
-    zone_redundancy = "false"
+  public_network_access_enabled = true
+  # cosmo_account_name                  = "db-name"
+  # throughput                    = 400
+  geo_location = [
+    {
+      location          = module.rg.location
+      failover_priority = 0
+      zone_redundant    = false
+    }
+  ]
+  consistency_policy = {
+    consistency_level = "Session"
+    # max_interval_in_seconds = 10
+    # max_staleness_prefix    = 200
   }
 
-  consistency_policy = {
-    example_policy_1 = {
-      consistency_level       = "BoundedStaleness"
-      max_interval_in_seconds = 10
-      max_staleness_prefix    = 200
-    }
-    example_policy_2 = {
-      consistency_level       = "Strong"
-      max_interval_in_seconds = null
-      max_staleness_prefix    = null
-    }
+  tags = {
+    environment = "dev"
+    project     = "demo"
   }
 }
+

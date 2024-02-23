@@ -66,17 +66,17 @@ variable "backup_type" {
 
 }
 
-variable "create_mode" {
-  description = "The creation mode for the CosmosDB Account. Possible values are Default and Restore."
-  type        = string
-  default     = "Default"
+# variable "create_mode" {
+#   description = "The creation mode for the CosmosDB Account. Possible values are Default and Restore."
+#   type        = string
+#   default     = "Default"
 
-  validation {
-    condition     = contains(["Default", "Restore"], var.create_mode) == true
-    error_message = format("Invalid Value Entered for create_mode - %s", var.create_mode)
-  }
+#   validation {
+#     condition     = contains(["Default", "Restore"], var.create_mode) == true
+#     error_message = format("Invalid Value Entered for create_mode - %s", var.create_mode)
+#   }
 
-}
+# }
 
 # variable "default_identity_type" {
 #   description = "The default identity for accessing Key Vault. Possible values are FirstPartyIdentity, SystemAssignedIdentity or UserAssignedIdentity"
@@ -87,28 +87,38 @@ variable "create_mode" {
 variable "kind" {
   description = "Specifies the Kind of CosmosDB to create - possible values are GlobalDocumentDB, MongoDB and Parse. Defaults to GlobalDocumentDB"
   default     = "GlobalDocumentDB"
-  type = string
+  type        = string
 
   validation {
     condition     = var.kind == "GlobalDocumentDB" || var.kind == "MongoDB"
     error_message = "Invalid value entered - ${var.kind}"
+  }
 }
-}
+# variable "consistency_policy" {
+#   description = "Configuration for database consistency policies."
+#   type        = map(object({
+#     consistency_level       = string
+#     max_interval_in_seconds = optional(number)
+#     max_staleness_prefix    = optional(number)
+#   }))
+# }
 variable "consistency_policy" {
-  description = "Configuration for consistency policy."
-  type        = map(object({
+  description = "Configuration for database consistency policies."
+  type        = object({
     consistency_level       = string
-    max_interval_in_seconds = number
-    max_staleness_prefix    = number
-  }))
+    max_interval_in_seconds = optional(number)
+    max_staleness_prefix    = optional(number)
+  })
 }
+
+
 
 variable "geo_location" {
   description = " Specifies a geo_location resource, used to define where data should be replicated with the failover_priority 0 specifying the primary location."
   type = list(object({
-    location                = string
-    failover_priority       = number
-    zone_redundancy = optional(bool)
+    location          = string
+    failover_priority = number
+    zone_redundant    = optional(bool)
   }))
 }
 
@@ -173,7 +183,7 @@ variable "capabilities" {
   default = []
 }
 variable "default_identity_type" {
-  type = string
+  type    = string
   default = null
 }
 
@@ -182,17 +192,25 @@ variable "public_network_access_enabled" {
   type        = bool
 }
 
-variable "mongodb_name" {
-  description = "The name of the MongoDB API for CosmosDB. Changing this forces a new resource to be created."
-  type        = string
-}
+# variable "mongodb_name" {
+#   description = "The name of the MongoDB API for CosmosDB. Changing this forces a new resource to be created."
+#   type        = string
+# }
 
-variable "account_name" {
-  description = "The name of the CosmosDB Account. Changing this forces a new resource to be created."
-  type        = string
-}
+# variable "cosmo_account_name" {
+#   description = "The name of the Cosmos DB account. It must be 3 - 50 characters long, contain only letters, numbers, and hyphens."
+#   type        = string
+#   validation {
+#     condition     = length(var.account_name) >= 3 && length(var.account_name) <= 50
+#     error_message = "The account_name must be between 3 and 50 characters long."
+#   }
+#   validation {
+#     condition     = can(regex("^[-a-zA-Z0-9]*$", var.account_name))
+#     error_message = "The account_name can only contain letters, numbers, and hyphens."
+#   }
+# }
 
-variable "throughput" {
-  description = "The throughput (RU/s) of the CosmosDB Account. Must be within the range of 400 to 1000000. Changing this forces a new resource to be created."
-  type        = number
-}
+# variable "throughput" {
+#   description = "The throughput (RU/s) of the CosmosDB Account. Must be within the range of 400 to 1000000. Changing this forces a new resource to be created."
+#   type        = number
+# }

@@ -13,9 +13,7 @@ resource "azurerm_cosmosdb_account" "cosmo_account" {
   )
 
   offer_type = var.offer_type
-
-  create_mode = var.backup_type == "Continuous" ? var.create_mode : ""
-
+  
   default_identity_type = var.default_identity_type
 
   kind = var.kind
@@ -32,26 +30,30 @@ resource "azurerm_cosmosdb_account" "cosmo_account" {
 
   enable_automatic_failover = var.enabled_automatic_failover
 
+dynamic "geo_location" {
+  for_each = var.geo_location
 
-  dynamic "geo_location" {
-    for_each = var.geo_location
-
-    content {
-      location          = geo_location.value.location
-      failover_priority = geo_location.value.failover_priority
-      zone_redundant    = lookup(geo_loction.value, geo_location.value.zone_redundant, "false")
-    }
+  content {
+    location          = geo_location.value.location
+    failover_priority = geo_location.value.failover_priority
+    zone_redundant    = lookup(geo_location.value, "zone_redundant", false)
   }
+}
 
+  # dynamic "consistency_policy" {
+  #   for_each = var.consistency_policy
 
-  dynamic "consistency_policy" {
-    for_each = var.consistency_policy
-
-    content {
-      consistency_level       = consistency_policy.value.consistency_level
-      max_interval_in_seconds = consistency_policy.value.consistency_level == "BoundedStaleness" ? lookup(consistency_policy.value, "max_interval_in_seconds", 5) : null
-      max_staleness_prefix    = consistency_policy.value.consistency_level == "BoundedStaleness" ? lookup(consistency_policy.value, "max_staleness_prefix", 100) : null
-    }
+  #   content {
+  #     consistency_level       = consistency_policy.value.consistency_level
+  #     max_interval_in_seconds = consistency_policy.value.consistency_level == "BoundedStaleness" ? lookup(consistency_policy.value, "max_interval_in_seconds", 5) : null
+  #     max_staleness_prefix    = consistency_policy.value.consistency_level == "BoundedStaleness" ? lookup(consistency_policy.value, "max_staleness_prefix", 100) : null
+  #   }
+  # }
+  consistency_policy {
+    # Use the single value from the variable
+    consistency_level       = var.consistency_policy.consistency_level
+    max_interval_in_seconds = var.consistency_policy.max_interval_in_seconds
+    max_staleness_prefix    = var.consistency_policy.max_staleness_prefix
   }
 
 
@@ -63,14 +65,14 @@ resource "azurerm_cosmosdb_account" "cosmo_account" {
     }
   }
 
-  dynamic "virtual_network_rule" {
-    for_each = length(var.virtual_network_rule) > 0 ? var.virtual_network_rule : []
+  # dynamic "virtual_network_rule" {
+  #   for_each = length(var.virtual_network_rule) > 0 ? var.virtual_network_rule : []
 
-    content {
-      id                                   = virtual_network_rule.value.id
-      ignore_missing_vnet_service_endpoint = lookup(var.virtual_network_rule.value, "ignore_missing_vnet_service_endpoint", false)
-    }
-  }
+  #   content {
+  #     id                                   = virtual_network_rule.value.id
+  #     ignore_missing_vnet_service_endpoint = lookup(var.virtual_network_rule.value, "ignore_missing_vnet_service_endpoint", false)
+  #   }
+  # }
 
   dynamic "backup" {
     for_each = length(var.backup) > 0 ? var.backup : []
@@ -95,17 +97,17 @@ resource "azurerm_cosmosdb_account" "cosmo_account" {
     }
   }
 
-  identity {
-    type         = var.identity.type ? var.identity.type : "SystemAssigned"
-    identity_ids = length(var.identity.identity_ids) > 0 ? var.identity.identity_ids : []
-  }
+  # identity {
+  #   type         = var.identity.type ? var.identity.type : "SystemAssigned"
+  #   identity_ids = length(var.identity.identity_ids) > 0 ? var.identity.identity_ids : []
+  # }
 
 }
 
-resource "azurerm_cosmosdb_mongo_database" "example" {
-  name                = var.mongodb_name
-  resource_group_name = var.resource_group_name
-  account_name        = var.account_name
-  throughput          = var.throughput
+# resource "azurerm_cosmosdb_mongo_database" "example" {
+#   name                = var.mongodb_name
+#   resource_group_name = var.resource_group_name
+#   account_name        = var.cosmo_account_name
+#  // throughput          = var.throughput
 
-}
+# }
