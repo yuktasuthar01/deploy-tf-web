@@ -23,15 +23,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Azure login
+      - name: Azure Login
         uses: azure/login@v1
         with:
-          creds: '{"clientId": "${{ secrets.ARM_CLIENT_ID }}", "clientSecret": "${{ secrets.ARM_CLIENT_SECRET }}", "tenantId": "${{ secrets.ARM_TENANT_ID }}"}'
-          enable-AzPSSession: false
-          environment: azurecloud
-          allow-no-subscriptions: false
-          audience: api://AzureADTokenExchange
-          auth-type: SERVICE_PRINCIPAL
+          creds: ${{ secrets.AZURE_CREDENTIALS }}
 
       - name: Configure Terraform backend
         run: |
