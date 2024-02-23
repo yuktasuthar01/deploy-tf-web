@@ -61,3 +61,9 @@ jobs:
         if: github.ref == 'refs/heads/master' 
         run: terraform apply -auto-approve 
         working-directory: "./terraform"
+        
+      - name: Deploy with Docker Compose
+        if: github.ref == 'refs/heads/master' && github.event_name == 'push'
+        run: |
+          cd /login-register-backend/docker-compose.yml
+          docker-compose up -d
