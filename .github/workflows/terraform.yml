@@ -65,5 +65,5 @@ jobs:
       - name: Deploy with Docker Compose
         if: github.ref == 'refs/heads/master' && github.event_name == 'push'
         run: |
-          cd /login-register-backend/docker-compose.yml
+          cd login-register-backend/docker-compose.yml
           docker-compose up -d
