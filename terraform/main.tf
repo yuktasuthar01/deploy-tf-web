@@ -77,7 +77,7 @@ module "virtual_network" {
 
 module "cosmosdb_mongodb" {
   source              = "./modules/mongodb"
-  cosmo_account_name  = "Web-app-DB"
+  cosmo_account_name  = "web-app-db"
   location            = module.rg.location
   resource_group_name = module.rg.name
   offer_type          = "Standard"
