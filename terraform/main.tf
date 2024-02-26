@@ -1,7 +1,7 @@
 module "rg" {
   source = "./modules/rg"
 
-  resource_group_name = "Mern-App-RG"
+  resource_group_name = "MernApp-RG"
   location            = "eastus"
 
 }
@@ -24,7 +24,7 @@ module "app-service" {
   source              = "./modules/app-service"
   resource_group_name = module.rg.name
   location            = module.rg.location
-  linux_web_app_name  = "tf-app"
+  linux_web_app_name  = "tf-webapp"
   service_plan_id     = module.service_plan.id
   identity_type       = "SystemAssigned"
 
@@ -65,7 +65,7 @@ module "virtual_network" {
     }
 
   ]
-  virtual_network_name = "test-vnet-tf"
+  virtual_network_name = "vnet-tf"
   location             = module.rg.location
   resource_group_name  = module.rg.name
   address_space        = ["10.0.0.0/16"]
@@ -77,7 +77,7 @@ module "virtual_network" {
 
 module "cosmosdb_mongodb" {
   source              = "./modules/mongodb"
-  cosmo_account_name  = "tf-webapp-db"
+  cosmo_account_name  = "web-app-tf-db"
   location            = module.rg.location
   resource_group_name = module.rg.name
   offer_type          = "Standard"
