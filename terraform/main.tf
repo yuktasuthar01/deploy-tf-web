@@ -24,7 +24,7 @@ module "app-service" {
   source              = "./modules/app-service"
   resource_group_name = module.rg.name
   location            = module.rg.location
-  linux_web_app_name  = "web-app"
+  linux_web_app_name  = "tf-app"
   service_plan_id     = module.service_plan.id
   identity_type       = "SystemAssigned"
 
@@ -71,13 +71,13 @@ module "virtual_network" {
   address_space        = ["10.0.0.0/16"]
   tags = {
     environment = "dev"
-    project     = "demo"
+    project     = "mern-app"
   }
 }
 
 module "cosmosdb_mongodb" {
   source              = "./modules/mongodb"
-  cosmo_account_name  = "web-app-db"
+  cosmo_account_name  = "tf-webapp-db"
   location            = module.rg.location
   resource_group_name = module.rg.name
   offer_type          = "Standard"
