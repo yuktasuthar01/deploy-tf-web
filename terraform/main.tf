@@ -1,7 +1,7 @@
 module "rg" {
   source = "./modules/rg"
 
-  resource_group_name = "Testing-terraform"
+  resource_group_name = "Mern-App-RG"
   location            = "eastus"
 
 }
