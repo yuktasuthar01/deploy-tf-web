@@ -1,7 +1,8 @@
 version: '3'
 services:
   backend:
-    build: .
+    build: /home/yukta/Desktop/task-demo/login-and-register-backend
+    image: yuktaacr.azurecr.io/login-register-backend-image
     ports:
       - "5000:5000"
     depends_on:
@@ -13,6 +14,7 @@ services:
 
   web:
     build: /home/yukta/Desktop/mern_app/login-and-register-app
+    image: yuktaacr.azurecr.io/login-register-web-image
     ports:
       - "5001:3000"
     depends_on:
@@ -20,9 +22,9 @@ services:
     networks:
       - my_network
 
-
   mongo:
-    image: mongo
+    # build: /home/yukta/Desktop/task-demo/login-and-register-backend
+    image: yuktaacr.azurecr.io/mongo
     ports:
       - "27017:27017"
     volumes:
