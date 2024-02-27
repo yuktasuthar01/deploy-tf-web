@@ -1,8 +1,8 @@
 module "rg" {
   source = "./modules/rg"
 
-  resource_group_name = "MernApp-RG"
-  location            = "eastus"
+  resource_group_name = "RG-TERRAFORM"
+  location            = "centralindia"
 
 }
 
@@ -24,7 +24,7 @@ module "app-service" {
   source              = "./modules/app-service"
   resource_group_name = module.rg.name
   location            = module.rg.location
-  linux_web_app_name  = "tf-webapp"
+  linux_web_app_name  = "tf-app-yukta"
   service_plan_id     = module.service_plan.id
   identity_type       = "SystemAssigned"
 
@@ -61,7 +61,7 @@ module "azurerm_container_registry" {
   location            = module.rg.location
 
   container_registry_config = {
-    name                          = "appregistry"
+    name                          = "yuktaacr"
     admin_enabled                 = true
     sku                           = "Premium"
     public_network_access_enabled = true
@@ -88,7 +88,7 @@ module "virtual_network" {
     }
 
   ]
-  virtual_network_name = "vnet-tf"
+  virtual_network_name = "vnet-tf-app"
   location             = module.rg.location
   resource_group_name  = module.rg.name
   address_space        = ["10.0.0.0/16"]
@@ -100,7 +100,7 @@ module "virtual_network" {
 
 module "cosmosdb_mongodb" {
   source              = "./modules/mongodb"
-  cosmo_account_name  = "web-app-tf-db"
+  cosmo_account_name  = "yukta-db"
   location            = module.rg.location
   resource_group_name = module.rg.name
   offer_type          = "Standard"
