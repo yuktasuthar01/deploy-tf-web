@@ -1,7 +1,7 @@
 module "rg" {
   source = "./modules/rg"
 
-  resource_group_name = "terraform-testing"
+  resource_group_name = "MernApp-RG"
   location            = "eastus"
 
 }
@@ -15,7 +15,7 @@ module "service_plan" {
 
   tags = {
     environment = "dev"
-    project     = "demo"
+    project     = "mern-app"
   }
 
 }
@@ -24,7 +24,7 @@ module "app-service" {
   source              = "./modules/app-service"
   resource_group_name = module.rg.name
   location            = module.rg.location
-  linux_web_app_name  = "login-register-app"
+  linux_web_app_name  = "tf-webapp"
   service_plan_id     = module.service_plan.id
   identity_type       = "SystemAssigned"
 
@@ -48,7 +48,7 @@ module "app-service" {
   }
   tags = {
     environment = "dev"
-    project     = "demo"
+    project     = "mern-app"
   }
 
 }
@@ -88,19 +88,19 @@ module "virtual_network" {
     }
 
   ]
-  virtual_network_name = "test-vnet"
+  virtual_network_name = "vnet-tf"
   location             = module.rg.location
   resource_group_name  = module.rg.name
   address_space        = ["10.0.0.0/16"]
   tags = {
     environment = "dev"
-    project     = "demo"
+    project     = "mern-app"
   }
 }
 
 module "cosmosdb_mongodb" {
   source              = "./modules/mongodb"
-  cosmo_account_name  = "login-register-app"
+  cosmo_account_name  = "web-app-tf-db"
   location            = module.rg.location
   resource_group_name = module.rg.name
   offer_type          = "Standard"
@@ -129,7 +129,7 @@ module "cosmosdb_mongodb" {
 
   tags = {
     environment = "dev"
-    project     = "demo"
+    project     = "mern-app"
   }
 }
 
