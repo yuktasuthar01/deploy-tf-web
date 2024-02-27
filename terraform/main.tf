@@ -34,7 +34,8 @@ module "app-service" {
       http2_enabled       = true
 
       application_stack = {
-        node_version = "18-lts"
+        docker_image_name = "nginx"
+        docker_registry_url = "https://hub.docker.com/"
       }
     }
 
@@ -50,6 +51,28 @@ module "app-service" {
     project     = "demo"
   }
 
+}
+
+
+module "azurerm_container_registry" {
+  source = "./modules/Containers/container-registry"
+
+  resource_group_name = module.rg.name
+  location            = module.rg.location
+
+  container_registry_config = {
+    name                          = "mern-app-registry"
+    admin_enabled                 = true
+    sku                           = "Standard"
+    public_network_access_enabled = true
+    quarantine_policy_enabled     = true
+    zone_redundancy_enabled       = true
+  }
+
+  tags       = {
+    environment = "dev"
+    project ="mern-app"
+  }
 }
 
 module "virtual_network" {
@@ -85,7 +108,7 @@ module "cosmosdb_mongodb" {
   backup_type         = "Continuous"
   capabilities = [{
     name = "EnableMongo"
-  }]
+  }]  
   # create_mode = "Restore" 
 
   public_network_access_enabled = true
