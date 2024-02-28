@@ -4,13 +4,13 @@ FROM node:18.17.0
 WORKDIR /app
 
 # Copy package.json file
-COPY ./package.json /app/.
+COPY . .
 RUN pwd && ls
 # Install dependencies
 RUN npm install
 
 # Copy all project files and directories
-COPY . .
+#COPY . .
 
 # Expose port 3000
 EXPOSE 3000
