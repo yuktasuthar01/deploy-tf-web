@@ -1,5 +1,5 @@
 FROM node:alpine
-WORKDIR /mern_app/login-and-register-app
+WORKDIR /login-and-register-app
 COPY package*.json ./
 RUN npm install
 COPY . .
