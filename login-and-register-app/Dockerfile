@@ -4,7 +4,7 @@ FROM node:18.17.0
 WORKDIR /login-and-register-app
 
 # Copy package.json file
-COPY package*.json ./
+COPY package*.json .
 
 # Install dependencies
 RUN npm install
