@@ -1,7 +1,7 @@
 FROM node:18.17.0
 
 # Using a common convention for the working directory
-WORKDIR /app
+WORKDIR /login-and-register-app
 
 # Copy package.json file
 COPY package*.json ./
