@@ -1,25 +1,21 @@
 version: '3'
+
 services:
   backend:
-    build: .
+    image: yuktaacr.azurecr.io/backend_${{ github.sha }}
     ports:
       - "5000:5000"
+    environment:
+      - .env
     depends_on:
       - mongo
-    env_file:  
-      - .env
-    networks:
-      - my_network
 
   web:
-    build: .
+    image: yuktaacr.azurecr.io/frontend_${{ github.sha }}
     ports:
       - "5001:3000"
     depends_on:
       - backend
-    networks:
-      - my_network
-
 
   mongo:
     image: mongo
@@ -27,11 +23,6 @@ services:
       - "27017:27017"
     volumes:
       - mongo_data:/data/db
-    networks:
-      - my_network
 
 volumes:
   mongo_data:
-
-networks:
-  my_network:
