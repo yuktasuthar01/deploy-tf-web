@@ -33,10 +33,10 @@ jobs:
         tags: yuktaacr.azurecr.io/${{ secrets.ACR_USERNAME }}/acr-yukta:${{ github.sha }}
         file: ./login-and-register-backend/Dockerfile
    
-    - name: Build and start services using Docker Compose
-      run: |
-        cd login-and-register-backend  
-        docker-compose up -d --build
+    # - name: Build and start services using Docker Compose
+    #   run: |
+    #     cd login-and-register-backend  
+    #     docker-compose up -d --build
  
   deploy:
     runs-on: ubuntu-latest
