@@ -1,5 +1,3 @@
-# Docs for the Azure Web Apps Deploy action: https://github.com/Azure/webapps-deploy
-# More GitHub Actions for Azure: https://github.com/Azure/actions
 
 name: Build and deploy container app to Azure Web App - tf-app-yukta
 
@@ -29,24 +27,28 @@ jobs:
     - name: Print image name
       run: |
        echo "Image to deploy: ${{ secrets.ACR_USERNAME }}/acr-yukta:${{ github.sha }}"
-       
-    - name: Build and push backend Docker image
-      run: |
-        docker build -t yuktaacr.azurecr.io/backend:${{ github.sha }} ./login-and-register-backend
-        docker push yuktaacr.azurecr.io/backend:${{ github.sha }}
+    # - name: Build and push backend container image to registry
+    #   # uses: docker/build-push-action@v3
+    #   run : |
+    #     cd login-and-register-backend 
+    #     docker build -t yuktaacr.azurecr.io/${{ secrets.ACR_USERNAME }}/backend:${{ github.sha }} .
+    #     docker push yuktaacr.azurecr.io/${{ secrets.ACR_USERNAME }}/backend:${{ github.sha }}
 
-    - name: Build and push frontend Docker image
-      run: |
-        docker build -t yuktaacr.azurecr.io/frontend:${{ github.sha }} ./login-and-register-app
-        docker push yuktaacr.azurecr.io/frontend:${{ github.sha }}
+    # - name: Build and push frontend Docker image
+    #   run: |
+    #    cd login-and-register-app
+    #    docker build -t yuktaacr.azurecr.io/${{ secrets.ACR_USERNAME }}/frontend:${{ github.sha }} .
+    #    docker push yuktaacr.azurecr.io/${{ secrets.ACR_USERNAME }}/frontend:${{ github.sha }}
+        
+      # with:
       #   push: true
       #   tags: yuktaacr.azurecr.io/${{ secrets.ACR_USERNAME }}/acr-yukta:${{ github.sha }}
       #   file: ./login-and-register-backend/Dockerfile
    
-    # - name: Build and start services using Docker Compose
-    #   run: |
-    #     cd login-and-register-backend  
-    #     docker-compose up -d --build
+    - name: Build and start services using Docker Compose
+      run: |
+        cd login-and-register-backend  
+        docker-compose up -d --build
  
   deploy:
     runs-on: ubuntu-latest
@@ -69,5 +71,4 @@ jobs:
         slot-name: 'production'
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
         images: |
-          yuktaacr.azurecr.io/backend:latest
-          yuktaacr.azurecr.io/frontend:latest
+          yuktaacr.azurecr.io/${{ secrets.ACR_USERNAME }}/backend:${{ github.sha }}
