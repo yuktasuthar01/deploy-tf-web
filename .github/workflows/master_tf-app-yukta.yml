@@ -33,7 +33,7 @@ jobs:
       with:
        context: .
        push: true
-       tags: yuktaacr.azurecr.io/${{ secrets.ACR_REPO }}/acr-yukta
+       tags: yuktaacr.azurecr.io/${{ secrets.ACR_REPO }}/frontend_${{ github.sha }}
        file: ./login-and-register-app/Dockerfile
 
     - name: Build and push backend container image to registry
