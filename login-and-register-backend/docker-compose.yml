@@ -1,26 +1,21 @@
 version: '3'
 services:
   backend:
-    build: .
+    image: yuktaacr.azurecr.io/${{ secrets.ACR_USERNAME }}/backend:${{ github.sha }}
     ports:
       - "5000:5000"
     depends_on:
       - mongo
     env_file:  
       - .env
-    networks:
-      - my_network
-
+    
   web:
-    build: .
+    image: yuktaacr.azurecr.io/${{ secrets.ACR_USERNAME }}/frontend:${{ github.sha }}
     ports:
       - "5001:3000"
     depends_on:
       - backend
-    networks:
-      - my_network
-
-
+    
   mongo:
     image: mongo
     ports:
@@ -33,5 +28,3 @@ services:
 volumes:
   mongo_data:
 
-networks:
-  my_network:
