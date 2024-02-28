@@ -69,5 +69,4 @@ jobs:
         app-name: 'tf-app-yukta'
         slot-name: 'production'
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-        images: |
-          yuktaacr.azurecr.io/${{ secrets.ACR_USERNAME }}/acr-yukta:${{ github.sha }}
+        images: '${{ secrets.ACR_SERVER }}/${{ secrets.ACR_REPO }}:dev_${{ github.sha }}'
