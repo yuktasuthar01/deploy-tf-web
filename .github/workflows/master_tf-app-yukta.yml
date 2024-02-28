@@ -34,7 +34,7 @@ jobs:
        context: ./login-and-register-app
        push: true
        tags: yuktaacr.azurecr.io/${{ secrets.ACR_REPO }}:frontend_${{ github.sha }}
-       file: ./login-and-register-app/Dockerfile
+       file: ./Dockerfile
 
     - name: Build and push backend container image to registry
       uses: docker/build-push-action@v3
@@ -42,7 +42,7 @@ jobs:
        context: ./login-and-register-backend
        push: true
        tags: yuktaacr.azurecr.io/${{ secrets.ACR_REPO }}:backend_${{ github.sha }}
-       file: /Dockerfile
+       file: ./Dockerfile
         
     - name: Build and start services using Docker Compose
       run: |
