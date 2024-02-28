@@ -1,29 +1,37 @@
 version: '3'
 services:
   backend:
-    image: yuktaacr.azurecr.io/backend:latest
+    build: .
     ports:
       - "5000:5000"
     depends_on:
       - mongo
     env_file:  
       - .env
-    
+    networks:
+      - my_network
+
   web:
-    image: yuktaacr.azurecr.io/frontend:latest
+    build: .
     ports:
       - "5001:3000"
     depends_on:
       - backend
-    
+    networks:
+      - my_network
+
+
   mongo:
     image: mongo
     ports:
       - "27017:27017"
     volumes:
       - mongo_data:/data/db
-   
+    networks:
+      - my_network
 
 volumes:
   mongo_data:
 
+networks:
+  my_network:
