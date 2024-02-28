@@ -2,7 +2,7 @@ version: '3'
 
 services:
   backend:
-    image: yuktaacr.azurecr.io/backend_${{ github.sha }}
+    image: testyukta.azurecr.io/backend:latest
     ports:
       - "5000:5000"
     environment:
@@ -11,7 +11,7 @@ services:
       - mongo
 
   web:
-    image: yuktaacr.azurecr.io/frontend_${{ github.sha }}
+    image: testyukta.azurecr.io/frontend:latest
     ports:
       - "5001:3000"
     depends_on:
