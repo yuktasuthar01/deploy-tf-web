@@ -20,7 +20,7 @@ jobs:
     - name: Log in to registry
       uses: docker/login-action@v2
       with:
-        registry: yuktaacr.azurecr.io/
+        registry: testyukta.azurecr.io
         username: ${{ secrets.ACR_USERNAME }}
         password: ${{ secrets.ACR_PASSWORD }}
        
@@ -29,7 +29,7 @@ jobs:
       with:
          context: . 
          push: true
-         tags: yuktaacr.azurecr.io/frontend:latest
+         tags: testyukta.azurecr.io/frontend:latest
          file: ./login-and-register-app/Dockerfile
 
     - name: Build and push backend image to registry
@@ -37,7 +37,7 @@ jobs:
       with:
          context: . 
          push: true
-         tags: yuktaacr.azurecr.io/backend:latest
+         tags: testyukta.azurecr.io/backend:latest
          file: ./login-and-register-backend/Dockerfile
   
     # - name: Build and push Frontend container image to registry
@@ -76,4 +76,4 @@ jobs:
         app-name: 'tf-app-yukta'
         slot-name: 'production'
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-        images: yuktaacr.azurecr.io/backend:latest
+        images: testyukta.azurecr.io/backend:latest
