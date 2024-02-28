@@ -1,11 +1,11 @@
 FROM node:18.17.0
 
 # Using a common convention for the working directory
-WORKDIR /login-and-register-app
+WORKDIR /app
 
 # Copy package.json file
-COPY package*.json .
-
+COPY package*.json /app/.
+RUN pwd && ls
 # Install dependencies
 RUN npm install
 
