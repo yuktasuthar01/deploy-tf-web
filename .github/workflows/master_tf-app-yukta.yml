@@ -27,24 +27,23 @@ jobs:
     - name: Print image name
       run: |
        echo "Image to deploy: ${{ secrets.ACR_USERNAME }}/acr-yukta:${{ github.sha }}"
-    # - name: Build and push backend container image to registry
-    #   # uses: docker/build-push-action@v3
-    #   run : |
-    #     cd login-and-register-backend 
-    #     docker build -t yuktaacr.azurecr.io/${{ secrets.ACR_USERNAME }}/backend:${{ github.sha }} .
-    #     docker push yuktaacr.azurecr.io/${{ secrets.ACR_USERNAME }}/backend:${{ github.sha }}
-
-    # - name: Build and push frontend Docker image
-    #   run: |
-    #    cd login-and-register-app
-    #    docker build -t yuktaacr.azurecr.io/${{ secrets.ACR_USERNAME }}/frontend:${{ github.sha }} .
-    #    docker push yuktaacr.azurecr.io/${{ secrets.ACR_USERNAME }}/frontend:${{ github.sha }}
-        
-      # with:
-      #   push: true
-      #   tags: yuktaacr.azurecr.io/${{ secrets.ACR_USERNAME }}/acr-yukta:${{ github.sha }}
-      #   file: ./login-and-register-backend/Dockerfile
    
+    - name: Build and push Frontend container image to registry
+      uses: docker/build-push-action@v3
+      with:
+        context: .
+        push: true
+        tags: yuktaacr.azurecr.io/${{ secrets.ACR_REPO }}:frontend_${{ github.sha }}
+        file: ./login-and-register-app/Dockerfile
+
+    - name: Build and push Frontend container image to registry
+      uses: docker/build-push-action@v3
+      with:
+        context: .
+        push: true
+        tags: yuktaacr.azurecr.io/${{ secrets.ACR_REPO }}:backend_${{ github.sha }}
+        file: ./login-and-register-backend/Dockerfile
+        
     - name: Build and start services using Docker Compose
       run: |
         cd login-and-register-backend  
