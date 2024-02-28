@@ -23,26 +23,36 @@ jobs:
         registry: https://yuktaacr.azurecr.io/
         username: ${{ secrets.ACR_USERNAME }}
         password: ${{ secrets.ACR_PASSWORD }}
-
-    - name: Print image name
-      run: |
-       echo "Image to deploy: ${{ secrets.ACR_USERNAME }}/acr-yukta:${{ github.sha }}"
-   
-    - name: Build and push Frontend container image to registry
-      uses: docker/build-push-action@v3
+       
+    - name: Build and push frontend image to registry
+      uses: docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09 # v5.0.0
       with:
-       context: ./login-and-register-app
        push: true
-       tags: yuktaacr.azurecr.io/${{ secrets.ACR_REPO }}:frontend_${{ github.sha }}
+       tags: yuktaacr.azurecr.io/frontend:latest
        file: ./login-and-register-app/Dockerfile
 
-    - name: Build and push backend container image to registry
-      uses: docker/build-push-action@v3
+    - name: Build and push backend image to registry
+      uses: docker/build-push-action@0565240e2d4ab88bba5387d719585280857ece09 # v5.0.0
       with:
-       context: ./login-and-register-backend
        push: true
-       tags: yuktaacr.azurecr.io/${{ secrets.ACR_REPO }}:backend_${{ github.sha }}
+       tags: yuktaacr.azurecr.io/backend:latest
        file: ./login-and-register-backend/Dockerfile
+  
+    # - name: Build and push Frontend container image to registry
+    #   uses: docker/build-push-action@v3
+    #   with:
+    #    context: ./login-and-register-app
+    #    push: true
+    #    tags: yuktaacr.azurecr.io/${{ secrets.ACR_REPO }}:frontend_${{ github.sha }}
+    #    file: ./login-and-register-app/Dockerfile
+
+    # - name: Build and push backend container image to registry
+    #   uses: docker/build-push-action@v3
+    #   with:
+    #    context: ./login-and-register-backend
+    #    push: true
+    #    tags: yuktaacr.azurecr.io/${{ secrets.ACR_REPO }}:backend_${{ github.sha }}
+    #    file: ./login-and-register-backend/Dockerfile
         
     # - name: Build and start services using Docker Compose
     #   run: |
@@ -57,11 +67,6 @@ jobs:
       url: ${{ steps.deploy-to-webapp.outputs.webapp-url }}
 
     steps:
-  
-    - name: Print image name
-      run: |
-       echo "Image to deploy: ${{ secrets.ACR_USERNAME }}/acr-yukta:${{ github.sha }}"
- 
     - name: Deploy to Azure Web App
       id: deploy-to-webapp
       uses: azure/webapps-deploy@v2
@@ -69,4 +74,4 @@ jobs:
         app-name: 'tf-app-yukta'
         slot-name: 'production'
         publish-profile: ${{ secrets.AZURE_WEBAPP_PUBLISH_PROFILE }}
-        images: '${{ secrets.ACR_SERVER }}/${{ secrets.ACR_REPO }}:dev_${{ github.sha }}'
+        images: yuktaacr.azurecr.io/backend:latest
