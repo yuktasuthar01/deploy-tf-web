@@ -1,7 +1,7 @@
 version: '3'
 services:
   backend:
-    image: yuktaacr.azurecr.io/${{ secrets.ACR_USERNAME }}/backend:${{ github.sha }}
+    image: yuktaacr.azurecr.io/backend:latest
     ports:
       - "5000:5000"
     depends_on:
@@ -10,7 +10,7 @@ services:
       - .env
     
   web:
-    image: yuktaacr.azurecr.io/${{ secrets.ACR_USERNAME }}/frontend:${{ github.sha }}
+    image: yuktaacr.azurecr.io/frontend:latest
     ports:
       - "5001:3000"
     depends_on:
