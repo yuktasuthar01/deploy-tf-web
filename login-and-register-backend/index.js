@@ -34,6 +34,7 @@ const userSchema = new mongoose.Schema({
 
 const User = new mongoose.model("User", userSchema);
 
+
 // Routes
 app.post("/login", async (req, res) => {
     try {
