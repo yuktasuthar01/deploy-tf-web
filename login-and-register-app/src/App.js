@@ -7,7 +7,6 @@ import { useState } from 'react';
 import axios from 'axios'; 
 
 axios.defaults.baseURL='https://tf-app-yukta.azurewebsites.net';
-
 function App() {
   const [user, setLoginUser] = useState({})
 
