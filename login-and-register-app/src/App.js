@@ -4,8 +4,9 @@ import Login from "./components/login/login"
 import Register from "./components/register/register"
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useState } from 'react';
+import axios from 'axios'; 
 
-axios.defaults.baseURL='https://tf-app-yukta.azurewebsites.net/';
+axios.defaults.baseURL='https://tf-app-yukta.azurewebsites.net';
 
 function App() {
   const [user, setLoginUser] = useState({})
