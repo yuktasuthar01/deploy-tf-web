@@ -36,6 +36,12 @@ const User = new mongoose.model("User", userSchema);
 
 
 // Routes
+
+app.use((req, res, next) => {
+    res.setHeader('Content-Security-Policy', "default-src 'self' https://tf-app-yukta.azurewebsites.net");
+    next();
+  });
+  
 app.post("/login", async (req, res) => {
     try {
         const { email, password } = req.body;
