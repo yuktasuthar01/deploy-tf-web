@@ -1,7 +1,7 @@
 import React from "react"
 import "./homepage.css"
 import { useLocation } from "react-router"
-import React, { useState } from 'react'
+import { useState } from 'react'
 
 const Homepage = ({ setLoginUser }) => {
     const { state } = useLocation();
