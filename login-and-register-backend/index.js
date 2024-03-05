@@ -4,6 +4,9 @@ const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
 require('dotenv').config(); 
 
+app.use(express.static('public'));
+
+
 const app = express();
 const port = process.env.PORT || 5000; // Change the port to 5000
 
