@@ -5,7 +5,7 @@ import Register from "./components/register/register"
 import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import { useState } from 'react';
 
-const SERVICE_URL = 'tf-app-yukta.azurewebsites.net';
+axios.defaults.baseURL='https://tf-app-yukta.azurewebsites.net/';
 
 function App() {
   const [user, setLoginUser] = useState({})
