@@ -1,4 +1,4 @@
-import React, { useState } from "react"; // Import React and useState hook
+import React from "react"; // Import React and useState hook
 
 import { useLocation } from "react-router"; // Import useLocation hook
 import "./homepage.css";
