@@ -3,7 +3,20 @@ import "./homepage.css"
 import { useLocation } from "react-router"
 
 const Homepage = ({ setLoginUser }) => {
-    const { state } = useLocation()
+    const { state } = useLocation();
+    const [data, setData] = useState(null);
+
+    // useEffect(() => {
+    //     // Fetch data when the component mounts
+    //     fetch(`${serviceUrl}/tf-app-yukta.azurewebsites.net`)
+    //       .then(response => response.json())
+    //       .then(data => {
+    //         setData(data);
+    //       })
+    //       .catch(error => {
+    //         console.error("Error fetching data:", error);
+    //       });
+    //   }, [serviceUrl]);
 
     return (
         <div className="homepage">

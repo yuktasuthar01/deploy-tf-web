@@ -31,7 +31,7 @@ const Register = () => {
             //     navigate("/login")
             // })
             try{
-                const {data} = await axios.post("http://localhost:5000/register", user)
+                const {data} = await axios.post("https://tf-app-yukta.azurewebsites.net/register", user)
             console.log(data)
             alert(JSON.stringify(data))
             navigate("/login")
