@@ -45,6 +45,7 @@
     });
     
     app.post("/login", async (req, res) => {
+        console.log("Received request body:", req.body);
         try {
             const { email, password } = req.body;
             const user = await User.findOne({ email: email });
@@ -68,6 +69,7 @@
     });
 
     app.post("/register", async (req, res) => {
+        console.log("Received request body:", req.body);
         console.log("this is register");
         try {
             const { name, email, password } = req.body;

@@ -22,6 +22,7 @@ const Login = ({ setLoginUser}) => {
     }
 
     const login = () => {
+        console.log("Login request sent:", user);
         axios.post("http://localhost:5000/login", user)
         .then(res => {
             alert(res.data.message)
