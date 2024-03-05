@@ -1,23 +1,10 @@
-import React from "react"
-import "./homepage.css"
-import { useLocation } from "react-router"
-import { useState } from 'react'
+import React, { useState } from "react"; // Import React and useState hook
+
+import { useLocation } from "react-router"; // Import useLocation hook
+import "./homepage.css";
 
 const Homepage = ({ setLoginUser }) => {
     const { state } = useLocation();
-    const [data, setData] = useState(null);
-
-    // useEffect(() => {
-    //     // Fetch data when the component mounts
-    //     fetch(`${serviceUrl}/tf-app-yukta.azurewebsites.net`)
-    //       .then(response => response.json())
-    //       .then(data => {
-    //         setData(data);
-    //       })
-    //       .catch(error => {
-    //         console.error("Error fetching data:", error);
-    //       });
-    //   }, [serviceUrl]);
 
     return (
         <div className="homepage">
@@ -26,6 +13,7 @@ const Homepage = ({ setLoginUser }) => {
             <h2>Email: {state.email}</h2>
             <div className="button" onClick={() => setLoginUser({})}>Logout</div>
         </div>
-    )
-}
-export default Homepage
+    );
+};
+
+export default Homepage;
