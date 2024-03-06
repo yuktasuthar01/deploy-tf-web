@@ -1,5 +1,5 @@
 FROM node:18.17.0
-WORKDIR /login-and-register-app
+WORKDIR /app
 COPY package*.json ./
 RUN npm install
 COPY . .
