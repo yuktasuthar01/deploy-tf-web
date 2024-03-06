@@ -1,8 +1,7 @@
-FROM node:18.17.0
-WORKDIR /app
-COPY package*.json /.
-COPY . .
+FROM node:alpine
+WORKDIR /mern_app/login-and-register-app
+COPY package*.json ./
 RUN npm install
-RUN npm run build
+COPY . .
 EXPOSE 3000
 CMD ["npm", "start"]
