@@ -1,16 +1,8 @@
-FROM node:18.17.0 
-# Create and set the working directory for backend
-WORKDIR /app
-
-# Copy package.json and package-lock.json files
+FROM node:14-alpine
+WORKDIR /mern_app/login-and-register-backend
 COPY package*.json ./
-
-# Install backend dependencies
 RUN npm install
 COPY . .
-
-# Expose port 3001
 EXPOSE 3001
-
-# Start the backend application
-CMD ["node", "index.js"]
+# CMD ["node", "index.js"]
+CMD ["sh", "-c", "sleep 10 && node index.js"]
