@@ -2,7 +2,10 @@
     const cors = require('cors');
     const mongoose = require('mongoose');
     const bcrypt = require('bcryptjs');
+    const axios = require('axios');
     require('dotenv').config(); 
+
+    axios.defaults.baseURL = process.env.BASE_API_URL;
 
     const app = express();
     const port = process.env.PORT || 5000; // Change the port to 5000
@@ -97,6 +100,6 @@
         }
     });
 
-    app.listen(port, () => {
-        console.log(`Backend started at port ${port}`);
+    app.listen(port, '0.0.0.0', () => {
+        console.log(`Server is running on http://localhost:${port}`);
     });
