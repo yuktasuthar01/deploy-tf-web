@@ -45,8 +45,6 @@ const Register = () => {
         }
         
     }
-            
-
     return (
         <div className="register">
             {console.log("User", user)}

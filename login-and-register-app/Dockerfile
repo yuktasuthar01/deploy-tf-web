@@ -15,5 +15,9 @@ RUN npm install
 # Expose port 3000
 EXPOSE 3000
 
+RUN npm run build
+
+COPY /build ../login-and-register-backend
+
 # Start the application using npm start
 CMD ["npm", "start"]

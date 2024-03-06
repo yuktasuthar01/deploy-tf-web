@@ -1,6 +1,7 @@
 FROM node:14-alpine
 WORKDIR /mern_app/login-and-register-backend
 COPY package*.json ./
+COPY build ../login-and-register-backend
 RUN npm install
 COPY login-and-register-backend .
 EXPOSE 3001
