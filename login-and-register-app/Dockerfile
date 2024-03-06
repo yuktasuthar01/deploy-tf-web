@@ -1,5 +1,5 @@
 # Use node image as base
-FROM node:18.17.0 
+FROM node:18.17.0 as builder
 
 
 RUN mkdir -p /app
