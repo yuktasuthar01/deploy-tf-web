@@ -30,7 +30,7 @@ jobs:
          context: . 
          push: true
          tags: testyukta.azurecr.io/frontend:latest
-         file: /login-and-register-app/Dockerfile
+         file: ./login-and-register-app/Dockerfile
 
     - name: Build and push backend image to registry
       uses: docker/build-push-action@v3
@@ -38,5 +38,5 @@ jobs:
          context: . 
          push: true
          tags: testyukta.azurecr.io/backend:latest
-         file: /login-and-register-backend/Dockerfile
+         file: ./login-and-register-backend/Dockerfile
   
