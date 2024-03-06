@@ -1,23 +1,23 @@
-FROM node:18.17.0
-
-# Using a common convention for the working directory
+# Stage 1: Build the frontend
+FROM node:18.17.0 AS frontend-build
 WORKDIR /app
-
-# Copy package.json file
-COPY login-and-register-app .
-RUN pwd && ls
-# Install dependencies
+COPY login-and-register-app/package.json .
 RUN npm install
-
-# Copy all project files and directories
-#COPY . .
-
-# Expose port 3000
-EXPOSE 3000
-
+COPY login-and-register-app .
 RUN npm run build
 
-COPY /build ../login-and-register-backend
+# Stage 2: Build the backend
+FROM node:18.17.0 AS backend-build
+WORKDIR /app
+COPY login-and-register-backend/package.json .
+RUN npm install
+COPY login-and-register-backend .
+COPY --from=frontend-build /app/build /app/login-and-register-backend/build
+RUN npm run build
 
-# Start the application using npm start
+# Final stage: Production-ready image
+FROM node:18.17.0
+WORKDIR /app
+COPY --from=backend-build /app/login-and-register-backend .
+EXPOSE 3000
 CMD ["npm", "start"]
